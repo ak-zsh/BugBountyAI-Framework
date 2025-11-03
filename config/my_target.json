@@ -1,0 +1,7 @@
+{
+  "target": "your-target.com",
+  "allowed_domains": ["your-target.com", "*.your-target.com"],
+  "blocked_paths": ["/admin", "/api/private"],
+  "rate_limit": "10 requests/second",
+  "auth_required": false
+}

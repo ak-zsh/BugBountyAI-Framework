@@ -1,0 +1,28 @@
+{
+  "target": "example.com",
+  "allowed_domains": [
+    "example.com",
+    "*.example.com"
+  ],
+  "blocked_paths": [
+    "/admin",
+    "/internal",
+    "/api/private"
+  ],
+  "allowed_methods": [
+    "passive_recon",
+    "subdomain_enum",
+    "port_scan",
+    "directory_discovery"
+  ],
+  "blocked_methods": [
+    "dos_attack",
+    "data_exfiltration",
+    "privilege_escalation"
+  ],
+  "rate_limit": "10 requests/second",
+  "auth_required": false,
+  "contact_email": "your_email@example.com",
+  "program_url": "https://hackerone.com/example",
+  "notes": "Only test disclosed functionality. No internal systems."
+}

@@ -1,0 +1,63 @@
+# Environment
+.env
+.env.local
+.env.*.local
+
+# API Keys & Secrets
+Agent-S/.env
+*.key
+*.pem
+credentials.json
+
+# Logs & Reports
+logs/
+*.log
+session_*.json
+
+# Reports & Findings
+reports/
+findings/
+*.xlsx
+*.docx
+
+# Test Data
+test_*.json
+debug_*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Node (if using web dashboard later)
+node_modules/
+npm-debug.log
