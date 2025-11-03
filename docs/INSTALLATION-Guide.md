@@ -1,149 +1,394 @@
-# BugBountyAI Framework - Installation Guide
+# BugBountyAI Framework v4.0 - Complete Installation Guide
 
-## Prerequisites
+## 📋 Table of Contents
 
-- **OS:** Windows 11, Kali Linux, or macOS
-- **Python:** 3.11 or higher
-- **RAM:** 6GB minimum (8GB+ recommended)
-- **Storage:** 500MB free space
-- **Internet:** Required for API calls
-- **Account:** Perplexity Pro subscription
+1. [System Requirements](#system-requirements)
+2. [Step-by-Step Installation](#step-by-step-installation)
+3. [Tool Installation](#tool-installation)
+4. [API Configuration](#api-configuration)
+5. [Burp Suite Setup](#burp-suite-setup)
+6. [Firefox Configuration](#firefox-configuration)
+7. [Verification](#verification)
+8. [Troubleshooting](#troubleshooting)
 
-## Step-by-Step Installation
+---
+
+## 🖥️ System Requirements
+
+### Minimum Requirements
+
+| Component | Requirement |
+|-----------|-------------|
+| **Operating System** | Windows 11, Kali Linux, or macOS 12+ |
+| **Python** | 3.11 or higher |
+| **Go** | 1.21 or higher |
+| **RAM** | 8GB minimum |
+| **Storage** | 2GB free space |
+| **Internet** | Stable connection for API calls |
+| **Account** | Perplexity Pro subscription |
+
+### Recommended Setup
+
+- **OS**: Windows 11 Pro
+- **CPU**: Intel Core i5 (12th Gen) or equivalent
+- **RAM**: 16GB DDR4
+- **Storage**: 512GB SSD
+- **Display**: 1920x1080 or higher
+
+---
+
+## 🚀 Step-by-Step Installation
 
 ### Step 1: Install Python 3.11+
 
-#### Windows
-1. Download from https://www.python.org/downloads/
-2. Run installer
-3. ✅ Check "Add Python to PATH"
-4. Click Install
-
-Verify:
+#### Windows:
 ```powershell
+# Download from https://www.python.org/downloads/
+# Run installer
+# ✅ Check "Add Python to PATH"
+# Click Install
+
+# Verify installation
 python --version
-# Output: Python 3.11.x or higher
+# Expected: Python 3.11.x or higher
 ```
 
-#### Kali Linux
+#### Kali Linux:
 ```bash
 sudo apt update
 sudo apt install python3.11 python3.11-venv python3-pip
 python3 --version
 ```
 
-### Step 2: Clone Repository
+### Step 2: Install Go 1.21+
+
+#### Windows:
+```powershell
+# Download from https://go.dev/dl/
+# Run installer (default location: C:\Go)
+# Verify installation
+go version
+# Expected: go version go1.21.x or higher
+```
+
+#### Kali Linux:
+```bash
+wget https://go.dev/dl/go1.21.5.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.21.5.linux-amd64.tar.gz
+export PATH=$PATH:/usr/local/go/bin
+go version
+```
+
+### Step 3: Clone Repository
 
 ```bash
 # Navigate to your workspace
-cd C:\Users\aksha\Documents\Docker\Tools
+cd C:\Users\aksha\Documents\Docker\Tools  # Windows
+# or
+cd ~/tools  # Linux
 
-# Clone the repository
+# Clone repository
 git clone https://github.com/ak-zsh/BugBountyAI-Framework.git
-
-# Navigate into directory
 cd BugBountyAI-Framework
 ```
 
-### Step 3: Create Virtual Environment (Optional but Recommended)
+### Step 4: Create Virtual Environment (Recommended)
 
 ```bash
 # Windows
 python -m venv venv
 .\venv\Scripts\Activate.ps1
 
-# Kali/Linux
+# Linux
 python3 -m venv venv
 source venv/bin/activate
 ```
 
-### Step 4: Install Agent-S
+### Step 5: Install Python Dependencies
 
 ```bash
-# Navigate to Agent-S directory
-cd Agent-S
-
-# Install in development mode
-pip install -e .
-
-# Return to framework root
-cd ..
-```
-
-**Expected Output:**
-```
-Successfully installed agent-s-X.X.X
-```
-
-### Step 5: Install MAPTA
-
-```bash
-# Navigate to MAPTA directory
-cd mapta
-
-# Install in development mode
-pip install -e .
-
-# Return to framework root
-cd ..
-```
-
-**Expected Output:**
-```
-Successfully installed mapta-X.X.X
-```
-
-### Step 6: Install Framework Dependencies
-
-```bash
+# Install core dependencies
 pip install langchain langchain-openai openai python-dotenv requests
+
+# Verify installations
+pip list | grep -E "langchain|openai|dotenv|requests"
 ```
 
 **Expected Output:**
 ```
-Successfully installed langchain-1.0.3 langchain-core-1.0.2 ...
+langchain           1.0.3
+langchain-core      1.0.2
+langchain-openai    1.0.1
+openai              1.40.0
+python-dotenv       1.0.0
+requests            2.31.0
 ```
 
-### Step 7: Verify Installation
+---
+
+## 🛠️ Tool Installation
+
+### Install ProjectDiscovery Tools
+
+These are the core scanning tools used by MAPTA:
 
 ```bash
-python -c "from orchestrator import BugBountyOrchestrator; print('✅ Framework ready')"
+# 1. Subfinder (Subdomain enumeration)
+go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+
+# 2. HTTPX (HTTP toolkit)
+go install github.com/projectdiscovery/httpx/cmd/httpx@latest
+
+# 3. DNSX (DNS toolkit)
+go install github.com/projectdiscovery/dnsx/cmd/dnsx@latest
+
+# 4. Katana (Web crawling)
+go install github.com/projectdiscovery/katana/cmd/katana@latest
+
+# 5. Nuclei (Vulnerability scanner)
+go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
+```
+
+**Windows Note:** Tools will be installed to `C:\Users\<YourUsername>\go\bin`
+
+**Linux Note:** Tools will be installed to `~/go/bin`
+
+### Verify Tool Installation
+
+```bash
+# Windows
+cd C:\Users\aksha\go\bin
+dir
+
+# Linux
+ls -la ~/go/bin
+
+# Test each tool
+subfinder -version
+httpx -version
+dnsx -version
+katana -version
+nuclei -version
 ```
 
 **Expected Output:**
 ```
-✅ Framework ready
+subfinder v2.6.3
+httpx v1.6.3
+dnsx v1.2.1
+katana v1.1.0
+nuclei v3.2.9
 ```
 
-### Step 8: Get Perplexity Pro API Key
+### Update PATH (if tools not found)
+
+#### Windows:
+```powershell
+# Add Go bin to PATH permanently
+$goPath = "$env:USERPROFILE\go\bin"
+[Environment]::SetEnvironmentVariable("Path", $env:Path + ";$goPath", "User")
+
+# Reload environment
+refreshenv
+# or restart PowerShell
+```
+
+#### Linux:
+```bash
+# Add to ~/.bashrc or ~/.zshrc
+echo 'export PATH=$PATH:~/go/bin' >> ~/.bashrc
+source ~/.bashrc
+```
+
+---
+
+## 🔑 API Configuration
+
+### Step 1: Get Perplexity Pro API Key
 
 1. Go to https://www.perplexity.ai
-2. Log in to your account
-3. Go to Settings → API
-4. Generate API key
-5. Copy the key (save it securely)
+2. Log in to your Perplexity Pro account
+3. Navigate to Settings → API
+4. Click "Generate API Key"
+5. **Copy the key** (save it securely)
 
-### Step 9: Configure API Key
+### Step 2: Configure Environment File
 
 ```bash
+# Navigate to framework
+cd BugBountyAI-Framework
+
 # Copy template
 cp .env.example Agent-S/.env
 
-# Edit the .env file
-notepad Agent-S/.env
+# Edit the file
+notepad Agent-S/.env  # Windows
+nano Agent-S/.env     # Linux
 ```
 
-Add your API key:
+**Add your API key:**
 ```
-PERPLEXITY_API_KEY=your_actual_api_key_here
+PERPLEXITY_API_KEY=pplx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
-**⚠️ Security:** Never commit this file or share your API key!
+**⚠️ Security Warning:** Never commit `.env` files to Git!
 
-### Step 10: Test Installation
+### Step 3: Verify API Connection
 
 ```bash
-# Run validation test
+python -c "
+from orchestrator import BugBountyOrchestrator
+o = BugBountyOrchestrator()
+result = o.check_api_connection()
+print('✅ API Connected' if result else '❌ API Failed')
+"
+```
+
+**Expected Output:**
+```
+✅ Perplexity Pro API connected
+✅ API Connected
+```
+
+---
+
+## 🛡️ Burp Suite Setup
+
+### Install Burp Suite Pro
+
+1. **Download**: https://portswigger.net/burp/pro
+2. **Install to**: `C:\Program Files\BurpSuitePro\` (Windows)
+3. **Linux**: Install to `/opt/BurpSuitePro/`
+
+### Verify Installation
+
+```bash
+# Windows
+"C:\Program Files\BurpSuitePro\burpsuite_pro.exe" --version
+
+# Linux
+/opt/BurpSuitePro/burpsuite_pro --version
+```
+
+### Configure Framework Paths
+
+Edit `automate_complete.py`:
+
+```python
+# Update these paths to match your installation
+self.burp_path = r'C:\Program Files\BurpSuitePro\burpsuite_pro.exe'  # Windows
+# or
+self.burp_path = '/opt/BurpSuitePro/burpsuite_pro'  # Linux
+```
+
+---
+
+## 🦊 Firefox Configuration
+
+### Install Firefox
+
+**Windows:**
+```powershell
+# Download from https://www.mozilla.org/firefox/
+# Install to default location: C:\Program Files\Mozilla Firefox\
+```
+
+**Linux:**
+```bash
+sudo apt update
+sudo apt install firefox
+```
+
+### Configure Proxy for Burp
+
+1. Open Firefox
+2. Go to Settings → Network Settings
+3. Select "Manual proxy configuration"
+4. **HTTP Proxy**: `127.0.0.1`
+5. **Port**: `8080`
+6. ✅ Check "Also use this proxy for HTTPS"
+7. Click OK
+
+### Update Framework Paths
+
+Edit `automate_complete.py`:
+
+```python
+# Update Firefox path
+self.firefox_path = r'C:\Program Files\Mozilla Firefox\firefox.exe'  # Windows
+# or
+self.firefox_path = '/usr/bin/firefox'  # Linux
+```
+
+### Install Burp Certificate in Firefox
+
+1. Start Burp Suite
+2. In Firefox, visit: `http://burp`
+3. Click "CA Certificate" (top right)
+4. Save `cacert.der`
+5. Firefox → Settings → Privacy & Security → Certificates → View Certificates
+6. Import → Select `cacert.der` → Trust for websites
+
+---
+
+## ✅ Verification
+
+### Complete Installation Check
+
+Run this verification script:
+
+```bash
+cd BugBountyAI-Framework
+python -c "
+import sys
+print('Python:', sys.version)
+
+try:
+    from orchestrator import BugBountyOrchestrator
+    print('✅ Orchestrator imported')
+except Exception as e:
+    print('❌ Orchestrator failed:', e)
+
+try:
+    import openai, langchain, dotenv
+    print('✅ Dependencies OK')
+except Exception as e:
+    print('❌ Dependencies failed:', e)
+
+try:
+    o = BugBountyOrchestrator()
+    result = o.check_api_connection()
+    print('✅ API Connected' if result else '❌ API Failed')
+except Exception as e:
+    print('❌ API error:', e)
+"
+```
+
+**Expected Output:**
+```
+Python: 3.11.x
+✅ Orchestrator imported
+✅ Dependencies OK
+✅ Perplexity Pro API connected
+✅ API Connected
+```
+
+### Test Tool Execution
+
+```bash
+# Test subfinder
+subfinder -d example.com -silent | head -5
+
+# Test httpx
+echo "https://example.com" | httpx -silent
+
+# Test nuclei
+nuclei -u https://example.com -silent
+```
+
+### Run Validation Test
+
+```bash
 python test_scope_validation.py
 ```
 
@@ -152,239 +397,107 @@ python test_scope_validation.py
 ======================================================================
 Scope Validation Test - Microsoft MSRC VDP
 ======================================================================
-
 ✅ Perplexity Pro API connected
-[STEP 1] Loading scope configuration...
-[STEP 2] Testing URL validation...
-✅ ALLOWED: https://microsoft.com/login
-...
+✅ Scope configuration loaded successfully!
+✅ URL validation working
+✅ Vulnerability filtering working
+✅ Session logged
 ✅ Scope validation complete - Framework is scope-aware!
+======================================================================
 ```
 
-## Troubleshooting Installation
+---
 
-### Error: `ModuleNotFoundError: openai`
+## 🛠️ Troubleshooting
 
-**Solution:**
+### Common Issues & Solutions
+
+| Issue | Solution |
+|-------|----------|
+| **Python not found** | Reinstall Python, check "Add to PATH" |
+| **Go tools not found** | Add `~/go/bin` to PATH |
+| **API connection failed** | Verify `PERPLEXITY_API_KEY` in `Agent-S/.env` |
+| **Subfinder timeout** | Normal for large domains, increase timeout |
+| **Burp won't launch** | Verify path in `automate_complete.py` |
+| **Firefox proxy error** | Check Burp is running on `127.0.0.1:8080` |
+| **Import errors** | `pip install --upgrade langchain openai` |
+
+### Debug Mode
+
+Enable detailed logging:
+
+```python
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
+# Then run your script
+from orchestrator import BugBountyOrchestrator
+o = BugBountyOrchestrator()
+o.load_scope_config('config/microsoft_vdp_scope.json')
+```
+
+### Reset Installation
+
+If something goes wrong, reset:
+
 ```bash
-pip install openai
+# Remove virtual environment
+rm -rf venv
+
+# Reinstall tools
+go clean -modcache
+go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+# ... (repeat for all tools)
+
+# Reinstall Python dependencies
+pip uninstall -y langchain openai
+pip install langchain langchain-openai openai python-dotenv requests
 ```
 
-### Error: `Python not found`
+---
 
-**Solution:**
-1. Reinstall Python
-2. Check PATH environment variable
-3. Use full path: `C:\Python311\python.exe --version`
+## 📦 Post-Installation
 
-### Error: `Permission denied` (Kali)
-
-**Solution:**
-```bash
-sudo pip install -e Agent-S/
-sudo pip install -e mapta/
-sudo pip install langchain langchain-openai openai python-dotenv requests
-```
-
-### Error: `API Connection Error`
-
-**Solution:**
-1. Check internet connection
-2. Verify API key in `Agent-S/.env`
-3. Ensure Perplexity Pro is active
-4. Test with: `python -c "from dotenv import load_dotenv; import os; load_dotenv('Agent-S/.env'); print(os.getenv('PERPLEXITY_API_KEY'))"`
-
-### Error: Agent-S installation fails
-
-**Solution:**
-```bash
-# Try manual installation
-cd Agent-S
-pip install --upgrade pip setuptools wheel
-pip install -e .
-cd ..
-```
-
-### Error: MAPTA tools not found
-
-**Solution:**
-```bash
-# Ensure Kali VM has tools installed
-sudo apt update
-sudo apt install -y nmap subfinder ffuf sqlmap
-
-# Or install individual tools
-pip install subfinder nmap ffuf
-```
-
-## Post-Installation Setup
-
-### 1. Create Your First Scope Config
+### Create Your First Config
 
 ```bash
 # Copy template
 cp config/microsoft_vdp_scope.json config/my_target.json
 
-# Edit with your target
+# Edit with your authorized target
 notepad config/my_target.json
 ```
 
-### 2. Test with Your Config
+### Run Your First Automation
 
 ```bash
-python -c "
-from orchestrator import BugBountyOrchestrator
-o = BugBountyOrchestrator()
-o.check_api_connection()
-o.load_scope_config('config/my_target.json')
-"
+# Test with validation only
+python orchestrator.py --config config/my_target.json
+
+# Run complete automation (all 5 phases)
+python automate_complete.py
 ```
-
-### 3. Run Full Integration Test
-
-```bash
-python test_scope_validation.py
-```
-
-### 4. Create Initial Scope Config
-
-```bash
-# Create config directory structure
-mkdir -p config logs reports
-
-# Create sample config
-echo '{
-  \"program\": {\"name\": \"Test Program\"},
-  \"target\": \"example.com\",
-  \"domain_scope\": {
-    \"in_scope_domains\": [\"example.com\"],
-    \"out_of_scope_domains\": []
-  },
-  \"vulnerability_scope\": {
-    \"in_scope_vulns\": [\"XSS\"],
-    \"out_of_scope_vulns\": []
-  },
-  \"testing_restrictions\": {
-    \"blocked_paths\": [],
-    \"blocked_methods\": [\"DoS\"]
-  },
-  \"rate_limits\": {
-    \"requests_per_second\": 5
-  }
-}' > config/test.json
-```
-
-## Verification Checklist
-
-Run through this to verify complete installation:
-
-```bash
-# Check Python version
-python --version
-# ✅ Should be 3.11+
-
-# Check orchestrator import
-python -c "from orchestrator import BugBountyOrchestrator; print('OK')"
-# ✅ Should print OK
-
-# Check Agent-S import
-python -c "import agent_s; print('OK')" 2>/dev/null || echo "Agent-S optional"
-# ✅ OK or optional message
-
-# Check MAPTA import
-python -c "import mapta; print('OK')" 2>/dev/null || echo "MAPTA optional"
-# ✅ OK or optional message
-
-# Check dependencies
-python -c "import openai, langchain, dotenv; print('OK')"
-# ✅ Should print OK
-
-# Check API connection
-python -c "
-from orchestrator import BugBountyOrchestrator
-o = BugBountyOrchestrator()
-result = o.check_api_connection()
-print('✅ API Ready' if result else '❌ API Failed')
-"
-# ✅ Should show API Ready
-
-# Check config loading
-python -c "
-from orchestrator import BugBountyOrchestrator
-from pathlib import Path
-o = BugBountyOrchestrator()
-if Path('config/microsoft_vdp_scope.json').exists():
-    o.load_scope_config('config/microsoft_vdp_scope.json')
-    print('✅ Config Loaded')
-"
-# ✅ Should show Config Loaded
-```
-
-## Environment Variables
-
-### Required
-
-```bash
-# In Agent-S/.env
-PERPLEXITY_API_KEY=your_key_here
-```
-
-### Optional
-
-```bash
-# For Gemini Pro 2.5 (future)
-GOOGLE_API_KEY=your_key_here
-
-# For local Ollama
-OLLAMA_BASE_URL=http://localhost:11434
-```
-
-## File Structure After Installation
-
-```
-BugBountyAI-Framework/
-├── Agent-S/                 ✅ Installed
-├── mapta/                   ✅ Installed
-├── config/
-│   └── microsoft_vdp_scope.json  ✅ Ready
-├── payloads/
-│   └── oda-xss.csv         ✅ Ready
-├── orchestrator.py         ✅ Ready
-├── test_scope_validation.py ✅ Ready
-├── Agent-S/.env            ⚠️ Configured (keep secret)
-└── .gitignore              ✅ Configured
-```
-
-## Next Steps
-
-1. ✅ Installation complete
-2. 📋 Create your first scope config (see [Quick Reference](QUICK-Reference.md))
-3. 🧪 Run `python test_scope_validation.py`
-4. 🎯 Test on authorized target
-5. 🐙 Push to GitHub (see [GitHub Setup](GITHUB-Setup.md))
-
-## Getting Help
-
-### Common Issues
-
-| Issue | Link |
-|-------|------|
-| API errors | Check `.env` configuration |
-| Import errors | Reinstall with `pip install -e .` |
-| Scope issues | Review `config/` templates |
-| Performance | Check logs in `logs/` directory |
-
-### Support
-
-- 📧 GitHub Issues: [Create issue](https://github.com/ak-zsh/BugBountyAI-Framework/issues)
-- 🐦 Twitter: [@ak_zsh](https://twitter.com/ak_zsh)
-- 🌐 Website: [aksh.qzz.io](https://aksh.qzz.io)
 
 ---
 
-**Installation Complete! 🎉**
+## 🎯 Next Steps
 
-Ready to start bug bounty testing. See [Quick Reference](QUICK-Reference.md) for next steps.
+1. ✅ **Installation complete!**
+2. 📋 Create your target config (see [Usage Examples](README-v4-UPDATED.md#usage-examples))
+3. 🧪 Run `python test_scope_validation.py`
+4. 🚀 Run `python automate_complete.py`
+5. 📊 Review findings in `reports/` directory
 
-**Created:** November 3, 2025  
+---
+
+## 📞 Support
+
+- 📧 Report issues: [GitHub Issues](https://github.com/ak-zsh/BugBountyAI-Framework/issues)
+- 💬 Discussions: [GitHub Discussions](https://github.com/ak-zsh/BugBountyAI-Framework/discussions)
+- 🐦 Twitter: [@ak_zsh](https://twitter.com/ak_zsh)
+
+---
+
+**Installation Guide Last Updated:** November 3, 2025  
+**Framework Version:** 4.0.0  
 **Author:** AK_ZSH (Aksh)

@@ -1,32 +1,45 @@
-# 🎯 BugBountyAI Framework
+# 🎯 BugBountyAI Framework v4.0
 
-> **AI-Powered, Scope-Aware Bug Bounty Automation**
+> **Complete End-to-End Bug Bounty Automation**
 > 
-> Unify **Agent-S** (GUI automation) + **MAPTA** (multi-agent pentesting) + **Perplexity Pro** (LLM reasoning) into one intelligent bug bounty engine.
+> AI-Powered orchestration of **Agent-S** (GUI automation) + **MAPTA** (multi-agent pentesting) + **Burp Suite Pro** + **Perplexity Pro** (LLM reasoning) into one fully autonomous bug bounty engine.
 
 ![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python)
 ![License](https://img.shields.io/badge/License-MIT-green)
-![Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)
-![VDP/BBP](https://img.shields.io/badge/VDP%2FBBP-Ready-orange)
+![Status](https://img.shields.io/badge/Status-Production%20Ready%20v4.0-brightgreen)
+![VDP/BBP](https://img.shields.io/badge/VDP%2FBBP-Fully%20Automated-orange)
 
 ---
 
 ## 📖 Table of Contents
 
+- [What's New in v4.0](#whats-new-in-v40)
 - [Features](#features)
 - [Quick Start](#quick-start)
 - [Installation](#installation)
-- [Usage](#usage)
-  - [Configuration](#configuration)
-  - [Basic Testing](#basic-testing)
-  - [Advanced Integration](#advanced-integration)
+- [Complete Automation](#complete-automation)
 - [Architecture](#architecture)
-- [Scope Enforcement](#scope-enforcement)
-- [Compliance & Logging](#compliance--logging)
+- [Usage Examples](#usage-examples)
 - [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
-- [License](#license)
 - [Credits](#credits)
+
+---
+
+## 🆕 What's New in v4.0
+
+### **Full End-to-End Automation**
+✅ **1-Click Execution** — Run `python automate_complete.py` and let it work  
+✅ **Agent-S + Burp Integration** — Automatically launches Firefox & Burp Suite  
+✅ **MAPTA Tool Orchestration** — Subfinder, HTTPX, DNSX, Katana, Nuclei all automated  
+✅ **Smart Batching** — Handles 7000+ subdomains without command line limits  
+✅ **Real Exploitation** — Generates actual PoCs for XSS, SQLi, SSRF, etc.  
+✅ **5-Phase Pipeline** — Recon → Burp Scan → MAPTA Scan → Exploitation → Report  
+
+### **Architecture Changes**
+- **3 Scripts**: `orchestrator.py` (planning), `automate_complete.py` (execution), `test_scope_validation.py` (testing)
+- **Burp Suite Pro Automation**: Launches and configures scope automatically
+- **Firefox Agent-S Control**: Opens targets in browser with proxy configured
+- **Temp File Processing**: Handles large datasets without crashes
 
 ---
 
@@ -36,7 +49,7 @@
 - Automatic domain/path validation
 - Vulnerability type filtering
 - HTTP method restriction
-- Rate limiting enforcement
+- Rate limiting enforcement (5 req/sec)
 - Real-time scope violation detection
 
 ### 🧠 **LLM-Powered Intelligence**
@@ -45,21 +58,43 @@
 - Smart tool recommendations
 - Finding prioritization
 
-### 🤖 **GUI & CLI Automation**
-- **Agent-S**: Browser automation (Burp Suite, Firefox)
-- **MAPTA**: Multi-agent tool orchestration
-- Automatic tool chaining
-- Screenshot capture & analysis
+### 🤖 **Complete Automation Pipeline**
 
-### 📋 **Compliance First**
-- Timestamped action logging
-- Audit trails for authorization proof
-- Scope violation reports
-- Session summaries
+#### **Phase 1: Reconnaissance** 🔍
+- Subfinder (subdomain enumeration)
+- DNSX (DNS resolution with batching)
+- HTTPX (live web detection)
+- Smart filtering at each step
+
+#### **Phase 2: Agent-S + Burp Suite** 🛡️
+- Automatic Burp Suite launch
+- Scope configuration from JSON
+- Firefox automation via Agent-S
+- Proxy-based traffic capture
+
+#### **Phase 3: MAPTA Active Scanning** 🎯
+- Katana (path crawling)
+- Nuclei (vulnerability detection)
+- Custom payload testing
+- Scope validation per finding
+
+#### **Phase 4: Exploitation & PoC** 💥
+- XSS testing & PoC generation
+- SQLi detection & exploitation
+- SSRF vulnerability testing
+- Authentication bypass attempts
+- Information disclosure checks
+
+#### **Phase 5: Reporting & Compliance** 📊
+- JSON report generation
+- Severity grouping
+- Exploitability assessment
+- Session logging
+- Compliance tracking
 
 ### 🛡️ **Enterprise-Grade**
-- Windows primary + Kali VM support
-- Docker integration ready
+- Windows 11 primary environment
+- Kali VM integration ready
 - Multi-LLM support (Perplexity Pro, Gemini Pro 2.5)
 - Extensible architecture
 
@@ -67,263 +102,201 @@
 
 ## 🚀 Quick Start
 
-### 1. Prerequisites
+### Prerequisites
 
 ```bash
-# Windows 11 / Kali Linux (6.9GB+ RAM recommended)
+# Windows 11 (recommended) or Kali Linux
 # Python 3.11+
-# Docker Desktop (optional)
-# Perplexity Pro subscription (API key required)
+# Go 1.21+ (for Go tools)
+# Perplexity Pro subscription
+# Burp Suite Pro (optional but recommended)
+# Firefox (for Agent-S automation)
 ```
 
-### 2. Clone & Setup
+### Installation (5 Minutes)
 
 ```bash
+# 1. Clone
 git clone https://github.com/ak-zsh/BugBountyAI-Framework.git
 cd BugBountyAI-Framework
 
-# Install dependencies
-pip install -e Agent-S/
+# 2. Install Python dependencies
 pip install langchain langchain-openai openai python-dotenv requests
-```
 
-### 3. Configure API
+# 3. Install Go tools
+go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+go install github.com/projectdiscovery/httpx/cmd/httpx@latest
+go install github.com/projectdiscovery/dnsx/cmd/dnsx@latest
+go install github.com/projectdiscovery/katana/cmd/katana@latest
+go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
 
-```bash
-# Create .env from template
+# 4. Configure API key
 cp .env.example Agent-S/.env
+# Edit Agent-S/.env with your Perplexity API key
 
-# Edit with your Perplexity Pro API key
-notepad Agent-S/.env
-# Add: PERPLEXITY_API_KEY=your_key_here
-```
-
-### 4. Test Installation
-
-```bash
+# 5. Test
 python test_scope_validation.py
 ```
 
-Expected: ✅ All tests pass, scope validation working
-
-### 5. Run on Your Target
+### Run Complete Automation
 
 ```bash
-# Create scope config for your target
-cp config/microsoft_vdp_scope.json config/your_target.json
+# Create your target config
+cp config/microsoft_vdp_scope.json config/my_target.json
+# Edit config/my_target.json with your authorized target
 
-# Edit config with your target details
-notepad config/your_target.json
-
-# Run orchestrator
-python orchestrator.py --config config/your_target.json
+# Run full automation (all 5 phases)
+python automate_complete.py
 ```
 
 ---
 
 ## 📦 Installation
 
-### Full Setup Guide
+### Detailed Setup
 
-#### Step 1: Clone Repository
+#### 1. System Requirements
+
+| Component | Requirement |
+|-----------|-------------|
+| **OS** | Windows 11, Kali Linux, or macOS |
+| **Python** | 3.11 or higher |
+| **Go** | 1.21 or higher (for tools) |
+| **RAM** | 8GB minimum, 16GB recommended |
+| **Storage** | 2GB free space |
+| **Network** | Stable internet for API calls |
+
+#### 2. Install Python Dependencies
 
 ```bash
-git clone https://github.com/ak-zsh/BugBountyAI-Framework.git
 cd BugBountyAI-Framework
-```
-
-#### Step 2: Install Agent-S (GUI Automation)
-
-```bash
-cd Agent-S
-pip install -e .
-cd ..
-```
-
-#### Step 3: Install MAPTA (Backend Tools)
-
-```bash
-cd mapta
-pip install -e .
-cd ..
-```
-
-#### Step 4: Install Framework Dependencies
-
-```bash
 pip install langchain langchain-openai openai python-dotenv requests
 ```
 
-#### Step 5: Configure API Keys
+#### 3. Install Go-Based Tools
+
+```bash
+# Subfinder
+go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+
+# HTTPX
+go install github.com/projectdiscovery/httpx/cmd/httpx@latest
+
+# DNSX
+go install github.com/projectdiscovery/dnsx/cmd/dnsx@latest
+
+# Katana
+go install github.com/projectdiscovery/katana/cmd/katana@latest
+
+# Nuclei
+go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
+```
+
+**Verify Installation:**
+```bash
+subfinder -version
+httpx -version
+dnsx -version
+katana -version
+nuclei -version
+```
+
+#### 4. Configure API Keys
 
 ```bash
 # Copy template
 cp .env.example Agent-S/.env
 
-# Add your Perplexity Pro API key
-# https://www.perplexity.ai/settings/api
+# Edit with your Perplexity Pro API key
+notepad Agent-S/.env
 ```
 
-#### Step 6: Verify Installation
-
-```bash
-python -c "from orchestrator import BugBountyOrchestrator; print('✅ Framework ready')"
+Add:
 ```
+PERPLEXITY_API_KEY=your_actual_api_key_here
+```
+
+#### 5. Install Burp Suite Pro (Optional)
+
+Download from: https://portswigger.net/burp/pro
+
+Install to: `C:\Program Files\BurpSuitePro\`
+
+**Configure Firefox Proxy:**
+1. Open Firefox
+2. Settings → Network Settings → Manual Proxy
+3. HTTP Proxy: `127.0.0.1`, Port: `8080`
+4. Check "Use this proxy for HTTPS"
 
 ---
 
-## 🎮 Usage
+## 🤖 Complete Automation
 
-### Configuration
+### Script Overview
 
-#### Create VDP/BBP Scope Config
+| Script | Purpose | Usage |
+|--------|---------|-------|
+| `orchestrator.py` | Scope validation & LLM planning | `python orchestrator.py --config config/target.json` |
+| `automate_complete.py` | **Full automation (5 phases)** | `python automate_complete.py` |
+| `test_scope_validation.py` | Test scope & compliance | `python test_scope_validation.py` |
+
+### Full Automation Workflow
 
 ```bash
+# 1. Configure your target
 notepad config/my_target.json
+
+# 2. Run complete automation
+python automate_complete.py
 ```
 
-**Example Config (Microsoft MSRC VDP):**
+**What Happens:**
 
-```json
-{
-  "program": {
-    "name": "Microsoft MSRC VDP",
-    "platform": "Microsoft Security Response Center",
-    "type": "VDP",
-    "authorization": "Public Disclosure Program",
-    "link": "https://msrc.microsoft.com/vulnerability-disclosure"
-  },
-  "target": "microsoft.com",
-  "domain_scope": {
-    "in_scope_domains": [
-      "microsoft.com",
-      "*.microsoft.com",
-      "*.office.com",
-      "*.azure.com"
-    ],
-    "out_of_scope_domains": [
-      "*.test.microsoft.com",
-      "internal.microsoft.com"
-    ]
-  },
-  "vulnerability_scope": {
-    "in_scope_vulns": [
-      "XSS", "CSRF", "SQLi", "RCE", "Authentication Bypass",
-      "Authorization Bypass", "Information Disclosure", "SSRF"
-    ],
-    "out_of_scope_vulns": [
-      "Social Engineering", "Phishing", "Brute Force", "Clickjacking"
-    ]
-  },
-  "testing_restrictions": {
-    "blocked_paths": ["/admin", "/internal", "/api/internal", "/debug"],
-    "blocked_methods": [
-      "DoS", "DDoS", "Data Exfiltration", "Account Takeover"
-    ]
-  },
-  "rate_limits": {
-    "requests_per_second": 5,
-    "requests_per_minute": 300,
-    "concurrent_connections": 2
-  }
-}
+```
+Phase 1: Reconnaissance (2-5 min)
+├─ Subfinder: 7871 subdomains found
+├─ Filtering: 7262 in-scope
+├─ DNSX: 6850 resolved
+└─ HTTPX: 4230 live websites
+
+Phase 2: Agent-S + Burp Suite (1-2 min)
+├─ Launch Burp Suite Pro
+├─ Configure scope from config
+├─ Launch Firefox with Agent-S
+└─ Capture HTTP traffic
+
+Phase 3: MAPTA Active Scanning (10-30 min)
+├─ Katana path crawling (per URL)
+├─ Nuclei vulnerability detection
+├─ Scope validation per finding
+└─ Filter out-of-scope items
+
+Phase 4: Exploitation & PoC (5-15 min)
+├─ XSS: Test reflection, context, CSP
+├─ SQLi: Error-based, union-based
+├─ SSRF: Internal resource access
+├─ Auth Bypass: Default credentials
+└─ Info Disc: Sensitive file exposure
+
+Phase 5: Reporting (1 min)
+├─ Generate JSON report
+├─ Group by severity & type
+├─ Compliance validation
+└─ Session logging
 ```
 
-### Basic Testing
+### Output Structure
 
-#### 1. Validate Scope Configuration
-
-```bash
-python test_scope_validation.py
 ```
-
-**Output:**
-- ✅ All domains loaded
-- ✅ Vulnerabilities filtered
-- ✅ Scope violations detected
-- ✅ Session logged
-
-#### 2. Test URL Against Scope
-
-```python
-from orchestrator import BugBountyOrchestrator
-
-orchestrator = BugBountyOrchestrator()
-orchestrator.load_scope_config('config/microsoft_vdp_scope.json')
-
-# Test URLs
-is_valid, reason = orchestrator.validate_target_url('https://microsoft.com/login')
-print(f"Valid: {is_valid}, Reason: {reason}")
-# Output: Valid: True, Reason: Domain microsoft.com is in scope and allowed
-
-# Test blocked URL
-is_valid, reason = orchestrator.validate_target_url('https://internal.microsoft.com/admin')
-print(f"Valid: {is_valid}, Reason: {reason}")
-# Output: Valid: False, Reason: Domain internal.microsoft.com is explicitly blocked
-```
-
-#### 3. Generate LLM-Powered Reconnaissance Plan
-
-```python
-orchestrator.plan_reconnaissance()
-```
-
-**Output:**
-- Step-by-step recon plan
-- Tools recommended
-- Rate limits applied
-- Scope constraints enforced
-
-#### 4. Save Session & Generate Compliance Report
-
-```python
-log_file = orchestrator.save_session_log()
-orchestrator.print_violation_report()
-```
-
-**Output:**
-- `logs/session_20251103_170000.json` (audit trail)
-- Summary: 65 URLs tested, 77 findings, 0 scope violations ✅
-
-### Advanced Integration
-
-#### Using Agent-S for Authenticated Testing
-
-```python
-from orchestrator import BugBountyOrchestrator
-# Note: Agent-S integration requires additional setup
-# See docs/INTEGRATION_GUIDE.md for details
-
-orchestrator = BugBountyOrchestrator()
-orchestrator.load_scope_config('config/target.json')
-
-# Launch Burp Suite (Agent-S handles automation)
-# Configuration happens automatically based on scope
-
-# Findings are validated against scope before reporting
-```
-
-#### Using MAPTA for Backend Scanning
-
-```python
-# Note: MAPTA integration requires tool installation
-# See docs/INTEGRATION_GUIDE.md for details
-
-orchestrator = BugBountyOrchestrator()
-orchestrator.load_scope_config('config/target.json')
-
-# MAPTA runs CLI tools respecting orchestrator scope
-# All findings validated before reporting
-```
-
-#### Custom Vulnerability Analysis
-
-```python
-# Analyze a finding within program scope context
-analysis = orchestrator.analyze_findings(
-    finding_description="XSS in search parameter with CSP bypass"
-)
-print(analysis)
+BugBountyAI-Framework/
+├── reports/
+│   └── Report_20251103_180430.json  # Full findings report
+├── logs/
+│   └── session_20251103_180430.json  # Compliance log
+└── results/
+    ├── subdomains.txt
+    ├── resolved.txt
+    └── live_urls.txt
 ```
 
 ---
@@ -331,190 +304,151 @@ print(analysis)
 ## 🏗️ Architecture
 
 ```
-┌─────────────────────────────────────────────────────┐
-│              BugBountyAI Framework                  │
-├─────────────────────────────────────────────────────┤
-│                                                     │
-│  ┌──────────────┐    ┌──────────────┐              │
-│  │ Orchestrator │    │ Perplexity   │              │
-│  │ (Validator & │◄──►│ Pro LLM      │              │
-│  │  Planner)    │    │ (sonar-pro)  │              │
-│  └──┬───┬───┬──┘     └──────────────┘              │
-│     │   │   │                                      │
-│  ┌──▼─┐│   │ ┌──────────────────────┐              │
-│  │    ││   └─►│ Scope Validator      │              │
-│  │    │└─────►│ • URLs               │              │
-│  │    │       │ • Vulns              │              │
-│  │    │       │ • Methods            │              │
-│  │    │       │ • Rate Limits        │              │
-│  │    │       └──────────────────────┘              │
-│  │    │                                            │
-│  │    ├─────────────────┬──────────────┐           │
-│  │    │                 │              │           │
-│  └────┴─┐          ┌────▼────┐   ┌────▼────┐      │
-│         │          │ Agent-S  │   │  MAPTA  │      │
-│         │          │ (GUI)    │   │(Backend)│      │
-│         │          └──────────┘   └─────────┘      │
-│         │                                          │
-│    ┌────▼────────────────────────────────────┐    │
-│    │ Session Logging & Compliance Tracking  │    │
-│    │ • Timestamped actions                  │    │
-│    │ • Scope violations detected            │    │
-│    │ • Audit trail for proof                │    │
-│    └───────────────────────────────────────┘    │
-│                                                     │
-└─────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│              BugBountyAI Framework v4.0                     │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌──────────────┐    ┌──────────────┐                      │
+│  │ Orchestrator │◄──►│ Perplexity   │                      │
+│  │ (Validator & │    │ Pro LLM      │                      │
+│  │  Planner)    │    │ (sonar-pro)  │                      │
+│  └──┬───┬───┬──┘     └──────────────┘                      │
+│     │   │   │                                               │
+│  ┌──▼─┐│   │ ┌──────────────────────┐                      │
+│  │    ││   └─►│ Scope Validator      │                      │
+│  │    │└─────►│ • URLs               │                      │
+│  │    │       │ • Vulns              │                      │
+│  │    │       │ • Methods            │                      │
+│  │    │       │ • Rate Limits        │                      │
+│  │    │       └──────────────────────┘                      │
+│  │    │                                                     │
+│  │    ├─────────────────┬──────────────┬──────────────┐    │
+│  │    │                 │              │              │    │
+│  └────┴─┐          ┌────▼────┐   ┌────▼────┐  ┌─────▼──┐ │
+│         │          │ MAPTA    │   │ Agent-S  │  │ Burp   │ │
+│         │          │ (Backend)│   │  (GUI)   │  │ Suite  │ │
+│         │          └──────────┘   └─────────┘  └────────┘ │
+│         │                                                   │
+│    ┌────▼────────────────────────────────────────┐        │
+│    │ Complete Automation Engine                  │        │
+│    │ • 5-phase pipeline                          │        │
+│    │ • Smart batching                            │        │
+│    │ • Real exploitation                         │        │
+│    │ • Compliance enforcement                    │        │
+│    └───────────────────────────────────────────┘        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🔐 Scope Enforcement
+## 💡 Usage Examples
 
-### How It Works
-
-```python
-# 1. Load scope
-orchestrator.load_scope_config('config/target.json')
-
-# 2. Validate before testing
-is_valid, reason = orchestrator.validate_target_url(url)
-if not is_valid:
-    print(f"Blocked: {reason}")
-    return
-
-# 3. Check vulnerability type
-is_testable, reason = orchestrator.validate_vulnerability_type(vuln)
-if not is_testable:
-    print(f"Out of scope: {reason}")
-    return
-
-# 4. Verify testing method
-is_allowed, reason = orchestrator.validate_method(method)
-if not is_allowed:
-    print(f"Method forbidden: {reason}")
-    return
-
-# 5. Test safely within bounds
-perform_test()
-
-# 6. Log for compliance
-orchestrator.save_session_log()
-```
-
-### Violation Examples
-
-```
-❌ BLOCKED: https://internal.microsoft.com/admin
-   Reason: Domain internal.microsoft.com is explicitly blocked
-
-❌ NOT ALLOWED: Social Engineering
-   Reason: Vulnerability Social Engineering is OUT OF SCOPE
-
-❌ BLOCKED: DoS Attack
-   Reason: Method DoS is not allowed
-
-❌ RATE LIMIT: 10 requests/sec
-   Reason: Exceeds configured limit of 5 requests/sec
-```
-
----
-
-## 📊 Compliance & Logging
-
-### Session Log Structure
-
-```json
-{
-  "timestamp": "2025-11-03T17:00:00.000000",
-  "framework_version": "2.0",
-  "program": "Microsoft MSRC VDP",
-  "target": "microsoft.com",
-  "summary": {
-    "total_actions": 150,
-    "urls_validated": 65,
-    "vulns_tested": 77,
-    "scope_violations": 0,
-    "compliance_status": "PASSED"
-  },
-  "actions": [
-    {
-      "timestamp": "2025-11-03T17:00:05.123456",
-      "action": "scope_config_loaded",
-      "program": "Microsoft MSRC VDP",
-      "status": "success"
-    },
-    {
-      "timestamp": "2025-11-03T17:00:10.234567",
-      "action": "url_validated",
-      "url": "https://microsoft.com/login",
-      "status": "allowed"
-    }
-  ],
-  "validated_urls": [...],
-  "scope_violations": [],
-  "tested_vulnerabilities": [...]
-}
-```
-
-### Generating Compliance Reports
+### Example 1: Test Microsoft VDP
 
 ```bash
-# View violation report
-python -c "from orchestrator import BugBountyOrchestrator; \
-o = BugBountyOrchestrator(); \
-o.load_scope_config('config/target.json'); \
-o.print_violation_report()"
+# Use included config
+python automate_complete.py
+# Uses config/microsoft_vdp_scope.json by default
+```
 
-# Export session log (automatic)
-# Saved to: logs/session_YYYYMMDD_HHMMSS.json
+### Example 2: Custom Target
+
+```bash
+# Create config
+cat > config/custom_target.json << EOF
+{
+  "program": {
+    "name": "My Custom VDP",
+    "platform": "HackerOne",
+    "type": "VDP",
+    "authorization": "Public Program"
+  },
+  "target": "example.com",
+  "domain_scope": {
+    "in_scope_domains": ["example.com", "*.example.com"],
+    "out_of_scope_domains": ["*.internal.example.com"]
+  },
+  "vulnerability_scope": {
+    "in_scope_vulns": ["XSS", "SQLi", "SSRF"],
+    "out_of_scope_vulns": ["DoS", "Social Engineering"]
+  },
+  "testing_restrictions": {
+    "blocked_paths": ["/admin", "/internal"],
+    "blocked_methods": ["DoS", "DDoS"]
+  },
+  "rate_limits": {
+    "requests_per_second": 5,
+    "requests_per_minute": 300
+  }
+}
+EOF
+
+# Edit automate_complete.py to use custom config
+# Change: config_file = 'config/custom_target.json'
+
+# Run
+python automate_complete.py
+```
+
+### Example 3: Scope-Only Testing
+
+```bash
+# Test scope validation
+python orchestrator.py --config config/my_target.json
+```
+
+### Example 4: Manual Tool Control
+
+```python
+from orchestrator import BugBountyOrchestrator
+
+# Load scope
+orch = BugBountyOrchestrator()
+orch.load_scope_config('config/my_target.json')
+
+# Validate a URL
+is_valid, reason = orch.validate_target_url('https://example.com/test')
+print(f"Valid: {is_valid}, Reason: {reason}")
+
+# Check vulnerability type
+is_testable, reason = orch.validate_vulnerability_type('XSS')
+print(f"Testable: {is_testable}, Reason: {reason}")
+
+# Generate LLM plan
+plan = orch.plan_reconnaissance()
+print(plan)
 ```
 
 ---
 
 ## 🛠️ Troubleshooting
 
-| Problem | Solution |
-|---------|----------|
-| `ModuleNotFoundError: openai` | `pip install openai python-dotenv` |
-| API connection failed | Check `PERPLEXITY_API_KEY` in `Agent-S/.env` |
-| Config file not found | Create config: `cp config/microsoft_vdp_scope.json config/your_target.json` |
-| Scope violations detected | Review config, ensure domain/path is in `in_scope_*` list |
-| Rate limiting errors | Reduce `requests_per_second` in config |
-| Agent-S not launching Burp | Ensure Burp Suite is installed and in PATH |
+| Issue | Solution |
+|-------|----------|
+| **Subfinder not found** | `go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest` |
+| **API connection failed** | Check `PERPLEXITY_API_KEY` in `Agent-S/.env` |
+| **Too many subdomains error** | Framework now handles this with smart batching |
+| **Burp doesn't launch** | Update `burp_path` in `automate_complete.py` |
+| **Firefox not opening** | Update `firefox_path` in `automate_complete.py` |
+| **Tools timeout** | Normal for large targets, framework continues |
+| **Scope violations** | Review logs, ensure domain is in `in_scope_domains` |
 
 ### Debug Mode
 
 ```python
-from orchestrator import BugBountyOrchestrator
 import logging
-
-# Enable debug logging
 logging.basicConfig(level=logging.DEBUG)
 
-orchestrator = BugBountyOrchestrator()
-orchestrator.load_scope_config('config/target.json')
-# Detailed logs now printed
+# Then run automation
+python automate_complete.py
 ```
-
----
-
-## 🤝 Contributing
-
-Found a bug? Have an improvement? We welcome contributions!
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/your-feature`)
-3. Commit changes (`git commit -m "Add your feature"`)
-4. Push to branch (`git push origin feature/your-feature`)
-5. Open a Pull Request
-
-**Note:** Never commit API keys or sensitive credentials.
 
 ---
 
 ## 📄 License
 
-This project is released under the **MIT License**. See [LICENSE](LICENSE) for details.
+This project is released under the **MIT License**.
 
 **Includes:**
 - **Agent-S**: [simular-ai/Agent-S](https://github.com/simular-ai/Agent-S) - MIT License
@@ -524,42 +458,46 @@ This project is released under the **MIT License**. See [LICENSE](LICENSE) for d
 
 ## 🙏 Credits & Attribution
 
-**BugBountyAI-Framework** by **AK_ZSH** (Aksh)
+**BugBountyAI-Framework v4.0** by **AK_ZSH** (Aksh)
 
 - 🌐 Website: [aksh.qzz.io](https://aksh.qzz.io)
 - 🐦 Twitter/X: [@ak_zsh](https://twitter.com/ak_zsh)
 - 💼 LinkedIn: [Aksh](https://linkedin.com/in/aksh-security)
+- 📧 GitHub: [@ak-zsh](https://github.com/ak-zsh)
 
 **Based on:**
-- **Agent-S**: Open-source GUI automation framework
-- **MAPTA**: Multi-agent pentesting framework
+- **Agent-S**: GUI automation framework by Simular AI
+- **MAPTA**: Multi-agent pentesting by Arthur Gervais et al.
 - **Perplexity Pro API**: Advanced LLM reasoning
+- **ProjectDiscovery Tools**: Subfinder, HTTPX, DNSX, Katana, Nuclei
 
 **Special Thanks:**
 - Simular AI (Agent-S development)
-- Arthur Gervais et al. (MAPTA)
+- Arthur Gervais (MAPTA research)
+- ProjectDiscovery team (amazing tools)
 - Perplexity AI (API access)
 
 ---
 
 ## 📚 Documentation
 
-- [Installation Guide](docs/INSTALLATION.md)
+- [Installation Guide](docs/INSTALLATION-v4.md)
 - [Integration Guide](docs/INTEGRATION_GUIDE.md)
-- [API Reference](docs/API_REFERENCE.md)
-- [Configuration Template](config/microsoft_vdp_scope.json)
+- [Quick Reference](QUICK-Reference.md)
+- [GitHub Setup Guide](GITHUB-Setup.md)
 
 ---
 
 ## 🎯 Roadmap
 
-- [ ] Native Burp Suite Pro integration
-- [ ] Advanced MAPTA agent customization
-- [ ] Google Gemini Pro 2.5 multi-modal support
-- [ ] Web dashboard for real-time monitoring
-- [ ] Automated report generation
-- [ ] Slack/Discord integration for notifications
+- [x] Full automation pipeline (v4.0)
+- [x] Agent-S + Burp integration
+- [x] Smart batching for large datasets
+- [ ] Google Gemini Pro 2.5 support
+- [ ] Web dashboard for monitoring
+- [ ] Slack/Discord notifications
 - [ ] Cloud deployment templates
+- [ ] Multi-target campaigns
 
 ---
 
@@ -567,11 +505,11 @@ This project is released under the **MIT License**. See [LICENSE](LICENSE) for d
 
 **This framework is designed for authorized security testing only.**
 
-- ✅ Only test targets where you have **explicit written authorization**
-- ✅ Comply with all bug bounty program rules and scope definitions
-- ✅ Keep API keys secure and never commit `.env` files
-- ✅ Respect all rate limits and testing restrictions
-- ✅ Review all findings before submission
+✅ Only test targets where you have **explicit written authorization**  
+✅ Comply with all bug bounty program rules and scope definitions  
+✅ Keep API keys secure and never commit `.env` files  
+✅ Respect all rate limits and testing restrictions  
+✅ Review all findings before submission  
 
 **Unauthorized access to computer systems is illegal.**
 
@@ -582,6 +520,7 @@ This project is released under the **MIT License**. See [LICENSE](LICENSE) for d
 - 📧 Report issues: [GitHub Issues](https://github.com/ak-zsh/BugBountyAI-Framework/issues)
 - 💬 Discussions: [GitHub Discussions](https://github.com/ak-zsh/BugBountyAI-Framework/discussions)
 - 🐦 Twitter: [@ak_zsh](https://twitter.com/ak_zsh)
+- 🌐 Website: [aksh.qzz.io](https://aksh.qzz.io)
 
 ---
 
@@ -598,6 +537,7 @@ If this framework helps your bug bounty journey, please:
 ---
 
 **Last Updated:** November 3, 2025  
+**Version:** 4.0.0 (Complete Automation)  
 **Status:** ✅ Production Ready  
 **License:** MIT  
 **Author:** AK_ZSH (Aksh)
