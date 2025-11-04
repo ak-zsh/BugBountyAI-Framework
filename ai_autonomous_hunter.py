@@ -759,7 +759,7 @@ Available tools: subfinder, httpx, nuclei, katana, gau, waybackurls, manual_test
 
 def main():
     """Execute autonomous hunting"""
-    config_file = 'config/microsoft_vdp_scope.json'
+    config_file = 'config/target.json'
     
     if not os.path.exists(config_file):
         print(f"❌ Config file not found: {config_file}")
