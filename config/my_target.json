@@ -1,7 +1,108 @@
 {
-  "target": "your-target.com",
-  "allowed_domains": ["your-target.com", "*.your-target.com"],
-  "blocked_paths": ["/admin", "/api/private"],
-  "rate_limit": "10 requests/second",
-  "auth_required": false
+  "program": {
+    "name": "Example VDP",
+    "platform": "Example",
+    "type": "VDP",
+    "authorization": "Public Disclosure Program",
+    "link": "https://example.com/vulnerability-disclosure"
+  },
+  
+  "target": "example.com",
+  
+  "domain_scope": {
+    "in_scope_domains": [
+      "example.com",
+      "*.example.com",
+    ],
+    "out_of_scope_domains": [
+      "*.test.example.com",
+    ]
+  },
+  
+  "vulnerability_scope": {
+    "in_scope_vulns": [
+      "XSS",
+      "CSRF",
+      "SQLi",
+      "RCE",
+      "Authentication Bypass",
+      "Authorization Bypass",
+      "Information Disclosure",
+      "SSRF",
+      "XXE",
+      "Deserialization",
+      "Path Traversal",
+      "Command Injection",
+      "Logic Bugs",
+      "Cryptographic Weaknesses",
+      "Insecure Direct Object References (IDOR)"
+    ],
+    "out_of_scope_vulns": [
+      "Social Engineering",
+      "Phishing",
+      "Physical Security",
+      "Brute Force (low-hanging)",
+      "Clickjacking",
+      "Rate Limiting Bypass",
+      "Public CVE Reproduction",
+      "Non-Security Issues"
+    ]
+  },
+  
+  "testing_restrictions": {
+    "blocked_paths": [
+      "/admin",
+      "/internal",
+      "/api/internal",
+      "/debug",
+      "/test",
+      "/staging",
+      "/*-internal*",
+      "/employee/*",
+      "/corporate/*"
+    ],
+    "blocked_methods": [
+      "DoS",
+      "DDoS",
+      "Data Exfiltration",
+      "Account Takeover (except your own test account)",
+      "Production Data Manipulation",
+      "Email Spoofing",
+      "DNS Hijacking"
+    ]
+  },
+  
+  "rate_limits": {
+    "requests_per_second": 50,
+    "requests_per_minute": 300,
+    "concurrent_connections": 2,
+    "description": "Respectful rate limiting to avoid DoS detection"
+  },
+  
+  "authentication": {
+    "auth_required": false,
+    "test_account_only": true,
+    "note": "Do NOT test against other users' accounts without permission"
+  },
+  
+  "special_conditions": {
+    "no_personal_data_collection": true,
+    "no_user_data_exfiltration": true,
+    "respect_privacy": true,
+    "comply_with_gdpr": true,
+    "log_all_actions": true
+  },
+  
+  "reporting": {
+    "disclosure_period": "90 days",
+    "platform": "Example Submission Form",
+    "report_url": "https://example.com/create-report",
+    "email": "secure@example.com"
+  },
+  
+  "contact": {
+    "program_name": "Example",
+    "website": "https://www.example.com/en-us/",
+    "policy": "https://www.example.com/en-us/cvd"
+  }
 }
