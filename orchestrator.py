@@ -25,7 +25,15 @@ class BugBountyOrchestrator:
         self.llm_model = 'sonar-pro'
         self.base_url = 'https://api.perplexity.ai'
         self.client = openai.OpenAI(base_url=self.base_url, api_key=self.perplexity_key)
-        
+                # Expose LLM for AI Hunter
+        from langchain_openai import ChatOpenAI
+        self.llm = ChatOpenAI(
+            model="sonar-pro",
+            openai_api_key=self.api_key,
+            openai_api_base="https://api.perplexity.ai",
+            temperature=0.2
+        )
+
         # Scope management
         self.target = None
         self.program = {}

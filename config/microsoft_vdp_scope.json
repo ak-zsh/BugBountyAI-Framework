@@ -81,7 +81,7 @@
   },
   
   "rate_limits": {
-    "requests_per_second": 5,
+    "requests_per_second": 50,
     "requests_per_minute": 300,
     "concurrent_connections": 2,
     "description": "Respectful rate limiting to avoid DoS detection"
