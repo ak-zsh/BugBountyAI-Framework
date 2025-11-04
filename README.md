@@ -36,37 +36,6 @@
 ✅ **71.4% Accuracy Verified** — Tested on Microsoft MSRC VDP (5 real vulns found)  
 ✅ **7,000+ Subdomain Handling** — Batch processing without command-line limits  
 
-### **Verified Real Vulnerabilities Found**
-
-On **Microsoft MSRC VDP**:
-- ✅ **1 High-Severity XSS** on chinaevent.microsoft.com/register
-- ✅ **4 Medium-Severity Open Redirects** on:
-  - careers.microsoft.com
-  - ads.microsoft.com  
-  - learn.microsoft.com/answers
-  - bingads.microsoft.com
-
----
-
-## 📊 Real-World Proof
-
-**Production Deployment Results:**
-
-| Metric | Result |
-|--------|--------|
-| **Subdomains Enumerated** | 7,902 |
-| **Domains Resolved** | 2,234 |
-| **Live Websites Found** | 682 |
-| **Unique Paths Crawled** | 1,390 |
-| **Total URLs Tested** | 8,608 |
-| **Initial Findings** | 30 |
-| **False Positives Filtered** | 18 (WAF-blocked) |
-| **Real Verified Vulns** | 5 ✅ |
-| **Accuracy Rate** | 71.4% |
-
-**Time:** 45 minutes (fully automated)  
-**Scope:** Microsoft MSRC VDP (100+ in-scope domains)
-
 ---
 
 ## 🚀 Quick Start
