@@ -318,13 +318,13 @@ tail -f logs/session_*.json
 
 ## 🎯 Usage Examples
 
-### Example 1: Run on Default Config (Microsoft VDP)
+### Example 1: Edit and Run on Default Config
 
 ```bash
 python ai_autonomous_hunter.py
 ```
 
-Uses `config/microsoft_vdp_scope.json` by default.
+Uses `config/my_target.json` by default.
 
 Expected runtime: **30-60 minutes**
 
@@ -332,7 +332,7 @@ Expected runtime: **30-60 minutes**
 
 ```bash
 # Create config
-cat > config/my_vdp.json << 'EOF'
+cat > config/my_target.json << 'EOF'
 {
   "program": {
     "name": "My Custom VDP",
